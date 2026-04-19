@@ -1,0 +1,8 @@
+# SGDK build output
+out/
+
+# Editor and OS noise
+*.swp
+*.swo
+*~
+.DS_Store

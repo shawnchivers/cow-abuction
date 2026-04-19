@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Genesis ROM",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/out/debug/rom.out",
+      "cwd": "${workspaceFolder}",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb-multiarch",
+      "stopAtConnect": true,
+      "setupCommands": [
+        {
+          "description": "Set architecture to m68k",
+          "text": "set architecture m68k",
+          "ignoreFailures": false
+        },
+        {
+          "description": "Connect to BlastEm via pipe",
+          "text": "target remote | blastem -D ${workspaceFolder}/out/debug/rom.bin",
+          "ignoreFailures": false
+        },
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}
