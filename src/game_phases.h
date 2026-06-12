@@ -459,11 +459,22 @@ static void updateUfo(GameState *gs, u8 idx) {
       // UFO flies away upward
       moveToward(&ufo->y, UFO_START_Y, UFO_RETREAT_SPEED);
 
+      // Add a brief shimmer by combining tiny jitter, flicker, and flip pulse.
+      {
+        s16 shimmerX = ufo->x + ((ufo->hitTimer & 2) ? 1 : -1);
+        s16 shimmerY = ufo->y + ((ufo->hitTimer & 1) ? 0 : -1);
+        SPR_setVisibility(ufo->sprite, (ufo->hitTimer & 1) ? VISIBLE : HIDDEN);
+        SPR_setHFlip(ufo->sprite, (ufo->hitTimer & 2) ? TRUE : FALSE);
+        SPR_setPosition(ufo->sprite, shimmerX, shimmerY);
+      }
+
       if (ufo->hitTimer == 0) {
         SPR_setVisibility(ufo->sparkSprite, HIDDEN);
+        SPR_setVisibility(ufo->sprite, VISIBLE);
+        SPR_setHFlip(ufo->sprite, FALSE);
         ufo->state = UFO_STATE_RETREATING;
       }
-      break;
+      return;
     }
 
     case UFO_STATE_RETREATING: {
